@@ -18,9 +18,15 @@ const HeaderCartButton = (props) => {
     }
     setBtnIsHighLighted(true);
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setBtnIsHighLighted(false);
     }, 300);
+
+    // Add clean up function to clear that timer in case that component should be removed
+    // It is a good practice to clean up any timers or any other side effects might be ongoing
+    return () => {
+      clearTimeout(timer);
+    };
   }, [items]);
 
   const btnClasses = `${classes.button} ${
