@@ -8,23 +8,26 @@ const AvailableMeals = () => {
   const [meals, setMeals] = useState([]);
   const { isLoading, error, sendRequest: fetchMeals } = useHttp();
 
-  useEffect(() => {
-    const dataHandler = (mealsObj) => {
-      const mealsList = [];
-      for (const key in mealsObj) {
-        if (Object.hasOwn(mealsObj, key)) {
-          const meal = mealsObj[key];
-          mealsList.push({
-            id: key,
-            description: meal.description,
-            name: meal.name,
-            price: meal.price,
-          });
-        }
-        setMeals(mealsList);
+  let mealsContent = <h2>No Meals Found!</h2>;
+
+  const dataHandler = (mealsObj) => {
+    const mealsList = [];
+    for (const key in mealsObj) {
+      if (Object.hasOwn(mealsObj, key)) {
+        const meal = mealsObj[key];
+        mealsList.push({
+          id: key,
+          description: meal.description,
+          name: meal.name,
+          price: meal.price,
+        });
       }
-      console.log(mealsList);
-    };
+      setMeals(mealsList);
+    }
+    console.log(mealsList);
+  };
+
+  useEffect(() => {
     fetchMeals(
       {
         url: "https://food-order-app-eb8c1-default-rtdb.europe-west1.firebasedatabase.app/meals.json",
@@ -33,21 +36,32 @@ const AvailableMeals = () => {
     );
   }, [fetchMeals]);
 
-  const MealsList = meals.map((meal) => (
-    <MealItem
-      id={meal.id}
-      key={meal.id}
-      title={meal.name}
-      description={meal.description}
-      price={meal.price}
-    />
-  ));
+  const mealsList = (
+    <ul>
+      {meals.map((meal) => (
+        <MealItem
+          id={meal.id}
+          key={meal.id}
+          title={meal.name}
+          description={meal.description}
+          price={meal.price}
+        />
+      ))}
+    </ul>
+  );
 
+  mealsContent = mealsList;
+
+  if (error) {
+    mealsContent = <h2>Error Can't Find Meals.</h2>;
+  }
+
+  if (isLoading) {
+    mealsContent = <h2>Loading...</h2>;
+  }
   return (
     <section className={classes.meals}>
-      <Card>
-        <ul>{MealsList}</ul>
-      </Card>
+      <Card>{mealsContent}</Card>
     </section>
   );
 };
