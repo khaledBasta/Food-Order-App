@@ -35,7 +35,7 @@
   background-color: transparent;
   border: none;
   border-radius: 25px;
-  padding: 0.5rem 2rem; 
+  padding: 0.5rem 2rem;
 }
 
 .actions button:hover,
@@ -52,6 +52,11 @@
 .actions .submit:hover,
 .actions .submit:active {
   background-color: #7a2706;
+}
+.actions .submit:disabled {
+  background-color: rgb(89, 87, 87);
+  border-color: rgb(89, 87, 87);
+  cursor: not-allowed;
 }
 
 .invalid label {

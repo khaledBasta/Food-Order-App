@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useInputSec = (validateFunction) => {
+const useInput = (validateFunction) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [isTouch, setIsTouch] = useState(false);
 
@@ -9,6 +9,7 @@ const useInputSec = (validateFunction) => {
 
   const valueChangeHandler = (event) => {
     setEnteredValue(event.target.value);
+    setIsTouch(true);
   };
 
   const valueBlurHandler = (event) => {
@@ -22,11 +23,12 @@ const useInputSec = (validateFunction) => {
 
   return {
     value: enteredValue,
-    isvalid: valueValid,
+    isValid: valueValid,
     hasError: valueHasError,
     changeHandler: valueChangeHandler,
     blurHandler: valueBlurHandler,
     reset,
+    touched: setIsTouch,
   };
 };
 
